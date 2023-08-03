@@ -1,6 +1,7 @@
 let shopContent = document.getElementById("shopContent");
 let verCarrito = document.getElementById("verCarrito");
 let modalContainer = document.getElementById("modal-container");
+let cantidadCarrito = document.getElementById("cantidadCarrito");
 
 let productos = [
     {
@@ -8,109 +9,126 @@ let productos = [
         nombreProducto: "Camiseta Titular",
         descripcion: "Camiseta Titular Blanca 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-blanca-2023.jpg"
+        imagen: "../img/camiseta-blanca-2023.jpg",
+        cantidad: 1
     },
     {
         id: 2,
         nombreProducto: "Camiseta Suplente",
         descripcion: "Camiseta Suplente Azul 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-azul-2023.jpg"
+        imagen: "../img/camiseta-azul-2023.jpg",
+        cantidad: 1
     },
     {
         id: 3,
         nombreProducto: "Camiseta Alternativa",
         descripcion: "Camiseta Alternativa Negra 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-negra-2023.jpg"
+        imagen: "../img/camiseta-negra-2023.jpg",
+        cantidad: 1
     },
     {
         id: 4,
         nombreProducto: "Camiseta Italiana",
         descripcion: "Camiseta Edicion Especial Italiana 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-italia.jpg"
+        imagen: "../img/camiseta-italia.jpg",
+        cantidad: 1
     },
     {
         id: 5,
         nombreProducto: "Camiseta Arquero Titular",
         descripcion: "Camiseta Arquero Titular Negra 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-arquero-negra.jpg"
+        imagen: "../img/camiseta-arquero-negra.jpg",
+        cantidad: 1
     },
     {
         id: 6,
         nombreProducto: "Camiseta Arquero Suplente",
         descripcion: "Camiseta Arquero Suplente Gris 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-arquero-gris.jpg"
+        imagen: "../img/camiseta-arquero-gris.jpg",
+        cantidad: 1
     },
     {
         id: 7,
         nombreProducto: "Camiseta Arquero Alternativa",
         descripcion: "Camiseta Arquero Alternativa Rosa 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-arquero-rosa.jpg"
+        imagen: "../img/camiseta-arquero-rosa.jpg",
+        cantidad: 1
     },
     {
         id: 8,
         nombreProducto: "Camiseta Conmemorativa",
         descripcion: "Camiseta Conmemorativa Especial 2023",
         precio: 25000 ,
-        imagen: "../img/camiseta-conmemorativa.jpg"
+        imagen: "../img/camiseta-conmemorativa.jpg",
+        cantidad: 1
     },
     {
         id: 9,
         nombreProducto: "Pantalon Titular",
         descripcion: "Pantalon Titular Azul 2023",
         precio: 12000 ,
-        imagen: "../img/pantalon-azul.jpg"
+        imagen: "../img/pantalon-azul.jpg",
+        cantidad: 1
     },
     {
         id: 10,
         nombreProducto: "Pantalon Suplente",
         descripcion: "Pantalon Suplente Blanco 2023",
         precio: 12000 ,
-        imagen: "../img/pantalon-blanco.jpg"
+        imagen: "../img/pantalon-blanco.jpg",
+        cantidad: 1
     },
     {
         id: 11,
         nombreProducto: "Pantalon Alternativo",
         descripcion: "Pantalon Alternativo Negro 2023",
         precio: 12000 ,
-        imagen: "../img/pantalon-negro.jpg"
+        imagen: "../img/pantalon-negro.jpg",
+        cantidad: 1
     },
     {
         id: 12,
         nombreProducto: "Campera polar Azul",
         descripcion: "Campera polar Azul Edicion VS",
         precio: 45000 ,
-        imagen: "../img/campera-azul.jpg"
+        imagen: "../img/campera-azul.jpg",
+        cantidad: 1
     },
     {
         id: 13,
         nombreProducto: "Campera Azul",
         descripcion: "Campera Azul Edicion VS",
         precio: 35000 ,
-        imagen: "../img/campera-azul-comun.jpg"
+        imagen: "../img/campera-azul-comun.jpg",
+        cantidad: 1
     },
     {
         id: 14,
         nombreProducto: "Campera Negra",
         descripcion: "Campera Negra Edicion VS",
         precio: 35000 ,
-        imagen: "../img/campera-negra.jpg"
+        imagen: "../img/campera-negra.jpg",
+        cantidad: 1
     },
     {
         id: 15,
         nombreProducto: "Campera Blanca",
         descripcion: "Campera Blanca Edicion VS",
         precio: 40000 ,
-        imagen: "../img/campera-blanca.jpg"
+        imagen: "../img/campera-blanca.jpg",
+        cantidad: 1
     },
 ]
 
-let carrito = [];
+/*Aca comienza todo lo que seria parte del carrito*/
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [] ;
 
 productos.forEach((product) => {
     let content = document.createElement ("div");
@@ -130,21 +148,36 @@ productos.forEach((product) => {
     content.append(comprar);
 
     comprar.addEventListener("click", () =>{
+
+        let repeat = carrito.some((repeatProduct) => repeatProduct.id === product.id);
+        if (repeat){
+            carrito.map((prod) => {
+                if(prod.id === product.id){
+                    prod.cantidad++;
+                }
+            });
+        } else {
         carrito.push({
             id: product.id,
             imagen: product.imagen,
             nombreProducto: product.nombreProducto,
             descripcion: product.descripcion,
             precio: product.precio,
-        });
+            cantidad: product.cantidad,
+            });
         console.log(carrito);
+        console.log(carrito.length);
+        carritoCounter();
+        saveLocal();
+        }
     });
-
 });
 
 /* Aca comienza la creacion del emoji del carrito, que la idea es que al presionarlo aparezcan los productos que haya seleccionado */
 
-verCarrito.addEventListener("click", () => {
+let pintarCarrito = () => {
+    modalContainer.innerHTML = "";
+    modalContainer.style.display = "flex";
     let modalHeader = document.createElement("div");
     modalHeader.className = "modal-header";
     modalHeader.innerHTML = `
@@ -156,104 +189,72 @@ verCarrito.addEventListener("click", () => {
     modalbutton.innerText = "x";
     modalbutton.className = "modal-header-button";
 
-    modalHeader.append(modalButton);
+    modalbutton.addEventListener("click", () =>{
+        modalContainer.style.display = "none";
+    });
+
+    modalHeader.append(modalbutton);
 
     carrito.forEach((product) => {
         let carritoContent = document.createElement("div");
         carritoContent.className = "modal-content";
-        carritoContent.inner.HTML = `
+        carritoContent.innerHTML = `
             <img src="${product.imagen}">
             <h3>${product.nombreProducto}</h3>
             <p>${product.precio}$</p>
+            <p>Cantidad: ${product.cantidad}</p>
         `;
 
         modalContainer.append(carritoContent);
+        console.log(carrito.length);
+        let eliminar = document.createElement("span");
+        eliminar.innerText = "❌";
+        eliminar.className = "delete-product";
+        carritoContent.append(eliminar);
+
+        eliminar.addEventListener("click", eliminarProducto);
     });
-});
 
+    let total = carrito.reduce((acc, el) => acc + el.precio, 0);
 
+    let totalBuying = document.createElement("div");
+    totalBuying.className = "total-content";
+    totalBuying.innerHTML = `total a pagar: ${total} $`;
+    modalContainer.append(totalBuying);
+};
 
+/*Aca comienza la parte en la que creo la forma de como eliminar productos que hayan sido seleccionados anteriormente */
 
+verCarrito.addEventListener("click", pintarCarrito);
 
+let eliminarProducto = () => {
+    let foundId = carrito.find((element) => element.id);
 
+    carrito = carrito.filter((carritoId) => {
+        return carritoId !== foundId;
+    });
+    carritoCounter();
+    saveLocal();
+    pintarCarrito();
+};
 
+/*Le agrego una funcion que hace que al seleccionar determinada cantidad de productos, aparezca el numero de productos seleccionados encima del emoji del Carrito*/ 
 
+let carritoCounter = () => {
+    cantidadCarrito.style.display = "block";
 
-// for (var i = 0; i < productos.length; i++) {
-//     var producto = productos[i];
+    let carritolength = carrito.length;
 
-//     var cardHTML = `
-//     <div class="col-md-4 mb-4">
-//         <div class="card">
-//         <img src="${producto.imagen}" class="card-img-top" alt="Imagen del producto">
-//         <div class="card-body">
-//             <h5 class="card-title">${producto.descripcion}</h5>
-//             <p class="card-text">Precio: $${producto.precio.toFixed(2)}</p>
-//             <input type="number" class="form-control mb-2" placeholder="Cantidad" value="${producto.cantidad}">
-//             <button class="btn btn-primary">Agregar al carrito</button>
-//         </div>
-//         </div>
-//     </div>
-//     `;
+    localStorage.setItem("carritoLength", JSON.stringify(carritolength))
 
-//     productCards.innerHTML += cardHTML;
-// }
+    cantidadCarrito.innerText = JSON.parse(localStorage.getItem("carritoLength"));
+};
 
+/* Local Storage */
+let saveLocal = () =>{
+localStorage.setItem("carrito", JSON.stringify(carrito));
+};
 
-// let carrito = [];
+JSON.parse(localStorage.getItem("carrito"));
 
-// function buscarProducto() {
-// let seleccion = prompt("Ingrese el nombre del producto que desea seleccionar: (Camisetas o Pantalones titular, suplente o alternativos, o Camperas azul o negra VS)");
-
-// producto = productos.find((p) => p.nombreProducto.toLowerCase() === seleccion.toLowerCase());
-// }
-
-// function agregarCarrito() {
-// if (producto) {
-//     let cantidad = parseInt(prompt("Ingrese la cantidad que desea seleccionar:"));
-//     carrito.push({
-//     producto: producto.nombreProducto,
-//     cantidad: cantidad,
-//         subtotal: producto.precio * cantidad
-//     });
-// } else {
-//     alert("El producto seleccionado no existe. Por favor, vuelva a intentarlo.");
-// }
-// }
-
-// function confirmarCarrito() {
-// while (true) {
-//     buscarProducto();
-//     agregarCarrito();
-
-//     if (!confirm("¿Desea agregar otro producto al carrito?")) {
-//     break;
-//     }
-// }
-// }
-
-// function calcularTotal() {
-// console.log("Carrito de compras:");
-// carrito.forEach((item) => {
-//     console.log(`- ${item.cantidad} ${item.producto}: ${item.subtotal}`);
-// });
-
-// let total = carrito.reduce((sum, item) => sum + item.subtotal, 0);
-// console.log(`Total a pagar: ${total}`);
-// }
-
-// function vaciarCarrito() {
-// carrito = [];
-// console.log("El carrito ha sido vaciado.");
-// }
-
-// confirmarCarrito();
-
-// if (carrito.length > 0) {
-// if (confirm("¿Desea vaciar el carrito?")) {
-//     vaciarCarrito();
-// }
-// }
-
-// calcularTotal();
-
+carritoCounter();
