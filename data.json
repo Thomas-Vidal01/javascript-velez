@@ -1,0 +1,40 @@
+{
+    "deportes": [
+    {
+        "id": 1,
+        "name": "Futbol 11",
+        "description": "Valor de la practica mensual $14.800",
+        "img": "./img/futbol-1.png"
+    },
+    {
+        "id": 2,
+        "name": "Futsal",
+        "description": "Valor de la practica mensual $8.700",
+        "img": "./img/futsal-1.png"
+    },
+    {
+        "id": 3,
+        "name": "Baseball",
+        "description": "Valor de la practica mensual $5.350",
+        "img": "/img/baseball-1.png"
+    },
+    {
+        "id": 4,
+        "name": "Handball",
+        "description": "Valor de la practica mensual $10.500",
+        "img": "./img/handball-1.png"
+    },
+    {
+        "id": 5,
+        "name": "Voley",
+        "description": "Valor de la practica mensual $9.700",
+        "img": "/img/voley-1.png"
+    },
+    {
+        "id": 6,
+        "name": "Hockey",
+        "description": "Valor de la practica mensual $12.200",
+        "img": "./img/hockey-1.png"
+    }
+    ]
+}
