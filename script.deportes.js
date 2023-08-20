@@ -1,6 +1,6 @@
 let deportes = document.querySelector("#deportes");
 
-fetch("data.json")
+fetch("../data.json")
 .then((resp) => resp.json())
 .then((data) => {
     console.log(data);
@@ -18,4 +18,5 @@ fetch("data.json")
 .catch((error) => {
     console.error("Error al cargar los datos:", error);
 });
+;
 

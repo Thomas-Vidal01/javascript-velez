@@ -166,6 +166,27 @@ nav a:hover{
     font-size: 18px;
 }
 
+/*-------PRODUCTOS--------*/
+
+.deportes-cont img{
+    width: 400px;
+    height: 250px;
+    box-shadow: 13px 14px 18px -1px rgba(0,0,0,0.81);
+-webkit-box-shadow: 13px 14px 18px -1px rgba(0,0,0,0.81);
+-moz-box-shadow: 13px 14px 18px -1px rgba(0,0,0,0.81);
+}
+
+.deportes-cont{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: #eeee;
+}
 
 /*-------PRODUCTOS--------*/
 
